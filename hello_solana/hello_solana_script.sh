@@ -1,4 +1,6 @@
 cd hello_world/
 cargo build-bpf
 cd ..
-bash hello_world_client/js_script.sh
+cd hello_world_client
+npm install
+cd ..

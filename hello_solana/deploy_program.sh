@@ -1,10 +1,8 @@
 #!/bin/bash
 
-# Path to the .env file
 ENV_FILE="hello_world_client/.env"
 
-# Deploy the program and save the output
-# solana program deploy hello_world/target/deploy/hello_world_solana.so > deploy_output.txt
+solana program deploy hello_world/target/deploy/hello_world_solana.so > deploy_output.txt
 
 # Extract the Program ID and format it
 PROGRAM_ID=$(grep -o 'Program Id: .*' deploy_output.txt | awk '{print $3}')

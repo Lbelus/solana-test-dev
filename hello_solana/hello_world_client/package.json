@@ -1,0 +1,16 @@
+{
+    "name": "hello_solana",
+    "version": "1.0.0",
+    "description": "client to execute a program on solana",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+      "@solana/web3.js": "^1.90.0", 
+      "dotenv": "^16.4.4" 
+    },
+    "keywords": [],
+    "author": "Lbelus",
+    "license": "ISC"
+  }
