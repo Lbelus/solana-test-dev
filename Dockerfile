@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     nasm \
     pkg-config \
+    libudev-dev \
     libssl-dev \
     git \
     wget \
@@ -35,8 +36,14 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 RUN sh -c "$(curl -sSfL https://release.solana.com/v1.18.1/install)"
 env PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
 
+RUN cargo install --git https://github.com/coral-xyz/anchor avm --locked --force && \
+    avm install latest && \
+    avm use latest
+
 # Install Yarn
 RUN npm install -g yarn
+
+ENV DEBIAN_FRONTEND=
 
 WORKDIR /workspace
 CMD ["/bin/bash"]

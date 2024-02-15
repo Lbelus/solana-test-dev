@@ -36,8 +36,8 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 RUN sh -c "$(curl -sSfL https://release.solana.com/v1.18.1/install)"
 env PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
 
-RUN cargo install --git https://github.com/coral-xyz/anchor avm --locked --force \
-    avm install latest \
+RUN cargo install --git https://github.com/coral-xyz/anchor avm --locked --force && \
+    avm install latest && \
     avm use latest
 
 # Install Yarn
