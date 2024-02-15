@@ -1,0 +1,40 @@
+{
+    "version": "0.1.0",
+    "name": "my_token_transfer_project",
+    "instructions": [
+      {
+        "name": "transfer",
+        "accounts": [
+          {
+            "name": "from",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "to",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "authority",
+            "isMut": false,
+            "isSigner": true
+          },
+          {
+            "name": "tokenProgram",
+            "isMut": false,
+            "isSigner": false
+          }
+        ],
+        "args": [
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "address": "ELsibYazZrrZyWwYsV2H27RMLDSLQ9YcdM7UQrzsjFMf"
+    }
+}
