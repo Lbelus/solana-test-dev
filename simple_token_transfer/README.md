@@ -1,17 +1,30 @@
 # solana-test-dev
 Creating accounts, minting tokens and realising an exhnage between account
 
+
+### create your container
+
+Generate the image;
+```bash
+sudo docker build -t my_solana_img .
+```
+
+```bash
+sudo docker run -it -v /PathToMyProject/:/workspace --name my_solana_container my_solana_img
+```
+
+
 ### Setting up your solana environment
 
 We will create two solana account
 a token account from wich we will mint some tokens
 
-Create a new keypair:
+Create a new keypair (Account A: sender):
 ```bash
 solana-keygen new -o /root/.config/solana/id.json
 ```
 
-Check key pair: 
+Check key pair (Account A: sender): 
 ```bash
 solana-keygen pubkey /root/.config/solana/id.json
 ```
@@ -37,28 +50,42 @@ solana airdrop 1 {Your solana address here} --url devnet
 Create a SPL(Solana Program Library) token on solana which is going to be token mint address.
 
 
+#### (Account A: sender).
 
-Create a token (save the address)
+Create a token adn save the address:
 ```bash
 spl-token create-token
 ```
-Create a token account 
+Create a token account:
 ```bash
 spl-token create-account {Your token address}
 ```
 
-Mint tokens into account
+Mint tokens into account:
 ```bash
 spl-token mint {Your token address} {number of desired token}
 ```
+#### (Account B: receiver)
 
+Generate new solana account:
 ```bash
 solana-keygen new -o /root/.config/solana/new_account.json
 ```
-```bash
-solana account new_account.json
 
-spl-token create-account {mint_account_address} {new_account address}
+Tie the new solana account to the mint: 
+```bash
+spl-token create-account {mint_account_address} /root/.config/solana/new_account.json
+
+solana account /root/.config/solana/new_account.json
+```
+
+Create mint account for the new solana Account:
+```bash
+spl-token create-account {mint_account_address} --owner {publickey from new_account.json} --fee-payer /root/.config/solana/id.json
+```
+Check balance of new address:
+```bash
+spl-token balance --address {newly created address} 
 ```
 
 ### 
@@ -67,38 +94,49 @@ Generate the project:
 
 ```bash
 anchor init my_token_transfer_project --javascript
-# 
-#anchor-spl = "0.29.0"
-#spl-token = "3.2.0" >> programs/my_token_transfer_project/Cargo.toml
-cp ../lib.rs programs/my_token_transfer_project/src/lib.rs
-# change Anchor.toml to devnet
-# programs.localnet > [programs.devnet]
-# cluster = "Localnet" > cluster = "devnet"
+cd my_token_transfer_project/
+rm -r .git
+echo 'anchor-spl = "0.29.0"' >> programs/my_token_transfer_project/Cargo.toml
+echo 'spl-token = "3.2.0"' >>  programs/my_token_transfer_project/Cargo.toml
+sed -i 's/\[programs.localnet\]/\[programs.devnet\]/g' Anchor.toml
+sed -i 's/cluster = "Localnet"/cluster = "devnet"/g' Anchor.toml
+```
 
+Generate your program ID.
+```bash
+solana-keygen new --outfile prg_keypair.json
+solana-keygen pubkey prg_keypair.json
+```
+Replace it in the lib.rs file and cpy the file to src
+```bash
+cp ../lib.rs programs/my_token_transfer_project/src/lib.rs
+```
+Build and deploy the project
+
+/!\ MAKE SURE THAT IDL/my_transfer_project.json, lib.rs AND index.js HAVE THE SAME PROGRAM ID /!\
+
+```bash
 anchor build
 cp ../my_transfer_project.json target/idl/my_transfer_project.json
 anchor deploy
 # for some reason the IDL does not want to generate itself
+```
 
+Setup the correct addresses in the ``index.js`` file:
+- ``programId`` with the id;
+- ``fromPubkey`` with mint account A recipient address
+- ``toPubkey`` with mint account B address
+
+```bash
 cd ../simple_token_transfer_client/
-npm install - y
-npm install @project-serum/anchor
-npm install @solana/web3.js
-npm install @solana/spl-token
+npm install 
 node index.js
 ```
-
-
-
-
-Configure Anchor.toml for the right network: devnet, testnet, or mainnet-beta;
-
-Deploy your program:
-
+check account b balance with : 
 ```bash
-
+spl-token balance --address {mint account B address}
 ```
-
+check account info with : 
 ```bash
-
-
+spl-token account-info {account address}
+```
