@@ -122,6 +122,11 @@ anchor deploy
 # for some reason the IDL does not want to generate itself
 ```
 
+Setup anchor_wallet env variable:
+```bash 
+export ANCHOR_WALLET=/root/.config/solana/id.json
+```
+
 Setup the correct addresses in the ``index.js`` file:
 - ``programId`` with the id;
 - ``fromPubkey`` with mint account A recipient address
