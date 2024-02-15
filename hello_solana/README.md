@@ -1,6 +1,17 @@
 # solana-test-dev
 Repository to test and train myself on solana bc.
 
+### create your container
+
+Generate the image;
+```bash
+sudo docker build -t my_solana_img .
+```
+
+```bash
+sudo docker run -it -v /PathToMyProject/:/workspace --name my_solana_container my_solana_img
+```
+
 ### Setting up your solana environment
 
 Create a new keypair:
