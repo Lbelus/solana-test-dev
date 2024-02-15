@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cd hello_world/
 cargo build-bpf
 cd ..
