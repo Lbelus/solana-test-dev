@@ -1,8 +1,8 @@
 # solana-test-dev
-Creating accounts, minting tokens and realising an exhnage between account
+Creating accounts, minting tokens and realising an exhange between account.
 
 
-### create your container
+### Create your container
 
 Generate the image;
 ```bash
@@ -88,10 +88,9 @@ Check balance of new address:
 spl-token balance --address {newly created address} 
 ```
 
-### 
+### Generate and run the project:
 
-Generate the project:
-
+Initialize the anchor program:
 ```bash
 anchor init my_token_transfer_project --javascript
 cd my_token_transfer_project/
@@ -128,20 +127,20 @@ export ANCHOR_WALLET=/root/.config/solana/id.json
 ```
 
 Setup the correct addresses in the ``index.js`` file:
-- ``programId`` with the id;
-- ``fromPubkey`` with mint account A recipient address
-- ``toPubkey`` with mint account B address
+- ``programId`` With the program id;
+- ``fromPubkey`` With mint account A recipient address
+- ``toPubkey`` With mint account B address
 
 ```bash
 cd ../simple_token_transfer_client/
 npm install 
 node index.js
 ```
-check account b balance with : 
+Check account b balance with : 
 ```bash
 spl-token balance --address {mint account B address}
 ```
-check account info with : 
+Check account info with : 
 ```bash
 spl-token account-info {account address}
 ```
