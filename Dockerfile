@@ -34,7 +34,7 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 
 # Install Solana CLI tools
 RUN sh -c "$(curl -sSfL https://release.solana.com/v1.18.1/install)"
-env PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
+ENV PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
 
 RUN cargo install --git https://github.com/coral-xyz/anchor avm --locked --force && \
     avm install latest && \
